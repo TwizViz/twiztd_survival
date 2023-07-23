@@ -3,6 +3,21 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+const keys = {
+    a: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    },
+    w: {
+        pressed: false
+    },
+    s: {
+        pressed: false
+    }
+}
+
 class Player {
     constructor(x,y,radius,color){
         this.x = x;
@@ -30,4 +45,61 @@ class Player {
 }
 
 const player = new Player(canvas.width / 2, canvas.height / 2, 20, 'blue');
-player.draw(ctx);
+
+function animate(){
+    requestAnimationFrame(animate);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    player.update(ctx);
+
+    // handle player movement
+    if(keys.w.pressed){
+        player.velocity.y = -1;
+    } else if(keys.s.pressed){
+        player.velocity.y = 1;
+    } else {
+        player.velocity.y = 0;
+    }
+
+    if(keys.a.pressed){
+        player.velocity.x = -1;
+    } else if(keys.d.pressed){
+        player.velocity.x = 1;
+    } else {
+        player.velocity.x = 0;
+    }
+}
+animate();
+
+window.addEventListener('keydown', ({key}) => {
+    switch(key){
+        case 'w':
+            keys.w.pressed = true;
+            break;
+        case 's':
+            keys.s.pressed = true;
+            break;
+        case 'a':
+            keys.a.pressed = true;
+            break;
+        case 'd':
+            keys.d.pressed = true;
+            break;
+    }
+})
+
+window.addEventListener('keyup', ({key}) => {
+    switch(key){
+        case 'w':
+            keys.w.pressed = false;
+            break;
+        case 's':
+            keys.s.pressed = false;
+            break;
+        case 'a':
+            keys.a.pressed = false;
+            break;
+        case 'd':
+            keys.d.pressed = false;
+            break;
+    }
+})
