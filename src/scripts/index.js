@@ -23,6 +23,7 @@ class Player {
         this.x = x;
         this.y = y;
         this.radius = radius;
+        this.attackRadius = this.radius * 1000;
         this.color = color;
         this.velocity = {
             x: 0,
@@ -37,10 +38,17 @@ class Player {
     }
 
     draw(context){
-        context.fillStyle = this.color;
         context.beginPath();
+        context.fillStyle = this.color;
         context.arc(this.x,this.y,this.radius,0,Math.PI * 2);
         context.fill();
+
+        // attack range detection radius
+        context.beginPath();
+        context.strokeStyle = this.color;
+        context.lineWidth = 2;
+        context.arc(this.x,this.y,this.attackRadius,Math.PI * 2);
+        context.stroke();
     }
 }
 
@@ -85,7 +93,7 @@ window.addEventListener('keydown', ({key}) => {
             keys.d.pressed = true;
             break;
     }
-})
+});
 
 window.addEventListener('keyup', ({key}) => {
     switch(key){
@@ -102,4 +110,4 @@ window.addEventListener('keyup', ({key}) => {
             keys.d.pressed = false;
             break;
     }
-})
+});
